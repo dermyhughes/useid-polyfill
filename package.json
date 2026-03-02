@@ -1,6 +1,6 @@
 {
   "name": "useid-polyfill",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React useId polyfill for React 16/17 with SSR support",
   "author": {
     "name": "Dermot Hughes",
