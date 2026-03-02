@@ -1,0 +1,50 @@
+{
+  "name": "useid-polyfill",
+  "version": "1.0.0",
+  "description": "React useId polyfill for React 16/17 with SSR support",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "jsdom": "^28.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "keywords": [
+    "react",
+    "useId",
+    "polyfill",
+    "accessibility",
+    "a11y",
+    "ssr"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dermothughes/useid-polyfill.git"
+  }
+}
