@@ -29,9 +29,14 @@ function FormField({ label }: { label: string }) {
 
 ## API
 
-### `useId(): string | undefined`
+### `useId()`
 
 Returns a unique, stable ID string. On React 18+, delegates to the native `React.useId()`.
+
+TypeScript return type is conditional on your installed React typings:
+
+- React 18+ typings: `string`
+- React 16/17 typings: `string | undefined`
 
 On React 16/17 during SSR, returns `undefined` on the initial server render and hydration pass, then resolves to a string ID after a layout effect. This avoids hydration mismatches.
 

@@ -3,6 +3,10 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 
 const _React = { ...React } as typeof React & { useId?: () => string };
 
+type UseId = typeof React extends { useId: (...args: never[]) => infer R }
+  ? () => R
+  : () => string | undefined;
+
 let count = 0;
 const prefix = Math.random().toString(36).slice(2, 6);
 export const genId = (): string => `uid-${prefix}${count++}`;
@@ -32,4 +36,4 @@ function useFallbackId(): string | undefined {
   return id;
 }
 
-export const useId: () => string | undefined = _React.useId || useFallbackId;
+export const useId: UseId = (_React.useId || useFallbackId) as UseId;
