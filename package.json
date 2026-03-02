@@ -1,7 +1,12 @@
 {
   "name": "useid-polyfill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React useId polyfill for React 16/17 with SSR support",
+  "author": {
+    "name": "Dermot Hughes",
+    "url": "https://derm.ie"
+  },
+  "homepage": "https://github.com/dermyhughes/useid-polyfill#readme",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -45,6 +50,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dermothughes/useid-polyfill.git"
+    "url": "https://github.com/dermyhughes/useid-polyfill.git"
   }
 }
