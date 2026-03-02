@@ -32,7 +32,7 @@ describe('useId SSR', () => {
   it('provides an ID after hydration', async () => {
     mockReact(undefined);
     const mod = await import('../src/useId');
-    const { renderHook } = await import('@testing-library/react');
+    const { renderHook } = await import('./helpers/renderHook');
 
     const { result } = renderHook(() => mod.useId());
     expect(typeof result.current).toBe('string');

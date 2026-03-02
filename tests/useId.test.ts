@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import * as ActualReact from 'react';
-import { renderHook } from '@testing-library/react';
+import { renderHook } from './helpers/renderHook';
 
 function mockReact(useId?: () => string) {
   vi.resetModules();

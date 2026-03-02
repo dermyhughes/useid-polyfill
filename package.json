@@ -23,18 +23,26 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
+    "test:react16": "npm install --save-dev react@16 react-dom@16 @testing-library/react@12 --legacy-peer-deps --silent && vitest run",
+    "test:react17": "npm install --save-dev react@17 react-dom@17 @testing-library/react@12 --legacy-peer-deps --silent && vitest run",
+    "test:react18": "npm install --save-dev react@18 react-dom@18 @testing-library/react@16 @testing-library/dom --legacy-peer-deps --silent && vitest run",
+    "test:react19": "npm install --save-dev react@19 react-dom@19 @testing-library/react@16 @testing-library/dom --legacy-peer-deps --silent && vitest run",
+    "test:all": "npm run test:react16 && npm run test:react17 && npm run test:react18 && npm run test:react19",
+    "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "jsdom": "^28.1.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
