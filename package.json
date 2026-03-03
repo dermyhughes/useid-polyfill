@@ -18,7 +18,7 @@
     },
     "./auto": {
       "types": "./dist/auto.d.ts",
-      "import": "./dist/auto.js",
+      "import": "./dist/auto.mjs",
       "require": "./dist/auto.js"
     }
   },

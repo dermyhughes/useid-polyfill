@@ -20,7 +20,7 @@ npm run test:react19   # React 19 + @testing-library/react@16
 npm run test:all       # All four versions in sequence
 ```
 
-> **Note:** Each script temporarily overrides the installed React version. Run `npm install` afterwards to restore React 18.
+> **Note:** Each script temporarily overrides the installed React version. Run `npm install` afterwards to restore the default version from devDependencies.
 
 ## E2E tests (Playwright)
 

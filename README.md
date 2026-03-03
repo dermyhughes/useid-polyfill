@@ -1,8 +1,8 @@
 # useid-polyfill
 
-A React `useId` polyfill for React 16 and 17, with SSR support.
+A React `useId` polyfill for React 16 and 17, with SSR support. Requires React 16.8+ (hooks support).
 
-React 18 introduced `useId()` for generating unique, stable IDs — critical for accessibility (ARIA attributes, label associations). This package detects React 18+ and delegates to the native `useId`. On React 16/17, it provides a fallback that avoids hydration mismatches.
+React 18 introduced `useId()` for generating unique, stable IDs — critical for accessibility (ARIA attributes, label associations). This package detects React 18+ and delegates to the native `useId`. On React 16.8+/17, it provides a fallback that avoids hydration mismatches.
 
 Need to support a third-party library that uses `useId` on React 16/17? See [Polyfilling Third-Party Libraries](#polyfilling-third-party-libraries).
 
@@ -82,7 +82,7 @@ This patches `React.useId` globally so any library importing `useId` from `react
 
 If runtime patching does not work in your environment, you can configure your bundler to shim React.
 
-Create a file `react-shim.js` at your project root:
+Create a file `react-shim.js` at your project root (CommonJS — see note below for ESM projects):
 
 ```js
 const React = require('react');
@@ -92,6 +92,8 @@ if (!React.useId) {
 }
 module.exports = React;
 ```
+
+> **Note:** This shim uses CommonJS (`require`/`module.exports`). If your project uses ESM (`"type": "module"` in package.json), rename it to `react-shim.cjs` and update the alias paths accordingly. Webpack and Vite both handle `.cjs` files correctly.
 
 **Webpack** — in `webpack.config.js`:
 
