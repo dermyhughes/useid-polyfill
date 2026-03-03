@@ -71,14 +71,32 @@ describe('useid-polyfill/auto', () => {
     expect(ReactAfter.useId).toBe(patchedUseId);
   });
 
-  it('logs a warning when patching fails', async () => {
-    vi.doMock('react', async () => {
-      const real = await vi.importActual<typeof ActualReact>('react');
-      const { useId: _useId, ...rest } = real as typeof ActualReact & {
-        useId?: () => string;
-      };
-      // Return a frozen object so Object.defineProperty throws
-      return Object.freeze({ ...rest, useId: undefined });
+  it('patches via .default when namespace is frozen (ESM simulation)', async () => {
+    const real = await vi.importActual<typeof ActualReact>('react');
+    const { useId: _useId, ...rest } = real as typeof ActualReact & {
+      useId?: () => string;
+    };
+    const mutableCjs = { ...rest, useId: undefined } as Record<string, unknown>;
+
+    vi.doMock('react', () => {
+      // Simulate ESM namespace: frozen namespace with a mutable .default (CJS interop)
+      return Object.freeze({ ...rest, useId: undefined, default: mutableCjs });
+    });
+
+    await import('../src/auto');
+    expect(typeof mutableCjs['useId']).toBe('function');
+  });
+
+  it('logs a warning when all patch targets are frozen', async () => {
+    const real = await vi.importActual<typeof ActualReact>('react');
+    const { useId: _useId, ...rest } = real as typeof ActualReact & {
+      useId?: () => string;
+    };
+    const frozen = Object.freeze({ ...rest, useId: undefined });
+
+    vi.doMock('react', () => {
+      // Both .default and the namespace are frozen — all targets exhausted
+      return Object.freeze({ ...rest, useId: undefined, default: frozen });
     });
 
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
