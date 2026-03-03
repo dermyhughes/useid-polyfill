@@ -55,6 +55,71 @@ const id = useId();
 return <input id={id ?? undefined} aria-describedby={id ? `${id}-help` : undefined} />;
 ```
 
+## Polyfilling Third-Party Libraries
+
+If you use React 16 or 17 and install a third-party library (e.g., MUI, Radix UI) that internally calls `React.useId`, it will crash because `React.useId` does not exist before React 18.
+
+### Option 1: Auto-patching (recommended)
+
+Import `useid-polyfill/auto` **once** at the very top of your app entry point, **before any other imports**:
+
+```js
+// src/index.js — must be the first import
+import 'useid-polyfill/auto';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+```
+
+This patches `React.useId` globally so any library importing `useId` from `react` will get the polyfill. On React 18+, this is a no-op.
+
+### Option 2: Bundler alias
+
+If runtime patching does not work in your environment, you can configure your bundler to shim React.
+
+Create a file `react-shim.js` at your project root:
+
+```js
+const React = require('react');
+if (!React.useId) {
+  const { useId } = require('useid-polyfill');
+  React.useId = useId;
+}
+module.exports = React;
+```
+
+**Webpack** — in `webpack.config.js`:
+
+```js
+module.exports = {
+  resolve: {
+    alias: {
+      react: require.resolve('./react-shim.js'),
+    },
+  },
+};
+```
+
+**Vite** — in `vite.config.ts`:
+
+```ts
+import { defineConfig } from 'vite';
+import path from 'path';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, './react-shim.js'),
+    },
+  },
+});
+```
+
+### Option 3: patch-package
+
+As a last resort, you can use [patch-package](https://www.npmjs.com/package/patch-package) to modify the offending library's source to import from `useid-polyfill` instead of `react`.
+
 ## How It Works
 
 1. **React 18+ detection**: If `React.useId` exists, it is used directly

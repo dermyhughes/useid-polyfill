@@ -15,6 +15,18 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./auto": {
+      "types": "./dist/auto.d.ts",
+      "import": "./dist/auto.mjs",
+      "require": "./dist/auto.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "auto": [
+        "./dist/auto.d.ts"
+      ]
     }
   },
   "files": [
