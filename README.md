@@ -4,6 +4,8 @@ A React `useId` polyfill for React 16 and 17, with SSR support.
 
 React 18 introduced `useId()` for generating unique, stable IDs — critical for accessibility (ARIA attributes, label associations). This package detects React 18+ and delegates to the native `useId`. On React 16/17, it provides a fallback that avoids hydration mismatches.
 
+Need to support a third-party library that uses `useId` on React 16/17? See [Polyfilling Third-Party Libraries](#polyfilling-third-party-libraries).
+
 ## Installation
 
 ```bash
@@ -73,6 +75,8 @@ import App from './App';
 ```
 
 This patches `React.useId` globally so any library importing `useId` from `react` will get the polyfill. On React 18+, this is a no-op.
+
+> **SSR note:** On React 16/17, the patched `useId` returns `undefined` during server rendering and hydration (same as the direct polyfill — see [SSR Caveats](#ssr-caveats)). Most libraries handle this gracefully, but if a third-party component breaks during hydration, this is likely why.
 
 ### Option 2: Bundler alias
 
