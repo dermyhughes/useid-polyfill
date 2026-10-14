@@ -47,8 +47,11 @@ On React 16/17 during SSR, returns `undefined` on the initial server render and 
 On React 16/17, the fallback returns `undefined` during server rendering and the hydration pass. The ID is set synchronously before paint via `useLayoutEffect`. This means:
 
 - Elements will briefly have no ID during hydration
-- After the first client-side effect cycle, IDs are assigned immediately (no `undefined` phase)
+- The **very first** components to call `useId` render once with `undefined` and then re-render with the ID — this happens even in a client-only app with no SSR, because the hook cannot tell a fresh client render apart from a hydration render (React 18's native `useId` has no such phase)
+- After the first client-side effect cycle, later-mounted components get IDs immediately (no `undefined` phase)
 - On React 18+, the native `useId` is used and there are no caveats
+
+Because of the first point, on React 16/17 the return type is `string | undefined`. Don't assume a string on the first render, and prefer passing the value straight to a DOM attribute (where `undefined` simply omits it) over using it as an object key or in imperative DOM lookups.
 
 If you conditionally apply the ID to DOM attributes, handle the `undefined` case:
 

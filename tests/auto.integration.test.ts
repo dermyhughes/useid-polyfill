@@ -1,8 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as ActualReact from 'react';
 
-const hasNativeUseId = typeof (ActualReact as any).useId === 'function';
-
+// Always replace `react` with a fresh, useId-less mock — on every installed
+// version. This forces the React 16/17 fallback path regardless of the version
+// under test, AND keeps `auto`'s patch confined to the per-test mock. Patching
+// the real shared `react` module (as happens on 16/17 when it is not mocked)
+// leaks across `vi.resetModules()`, since the mutation can't be undone, and
+// would make the "crashes without auto-patch" case pass falsely.
 function mockReactWithoutUseId() {
   vi.doMock('react', async () => {
     const real = await vi.importActual<typeof ActualReact>('react');
@@ -19,9 +23,7 @@ describe('auto polyfill with third-party component', () => {
   });
 
   it('third-party component renders with valid linked IDs', async () => {
-    if (hasNativeUseId) {
-      mockReactWithoutUseId();
-    }
+    mockReactWithoutUseId();
 
     // Import auto FIRST — this patches React.useId
     await import('../src/auto');
@@ -52,9 +54,7 @@ describe('auto polyfill with third-party component', () => {
   });
 
   it('multiple third-party components get unique IDs', async () => {
-    if (hasNativeUseId) {
-      mockReactWithoutUseId();
-    }
+    mockReactWithoutUseId();
 
     await import('../src/auto');
 
@@ -80,9 +80,7 @@ describe('auto polyfill with third-party component', () => {
   });
 
   it('third-party component IDs are stable across re-renders', async () => {
-    if (hasNativeUseId) {
-      mockReactWithoutUseId();
-    }
+    mockReactWithoutUseId();
 
     await import('../src/auto');
 
@@ -107,9 +105,7 @@ describe('auto polyfill with third-party component', () => {
   });
 
   it('without auto-patch, third-party component crashes on React 17', async () => {
-    if (hasNativeUseId) {
-      mockReactWithoutUseId();
-    }
+    mockReactWithoutUseId();
 
     // Do NOT import auto — render the component and expect it to throw
     const { ThirdPartyInput } = await import(
